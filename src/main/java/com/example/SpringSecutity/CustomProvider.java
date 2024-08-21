@@ -1,6 +1,7 @@
 package com.example.SpringSecutity;
 
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -8,7 +9,7 @@ import org.springframework.security.core.userdetails.User;
 
 import java.util.Objects;
 
-public class NhanProvider implements AuthenticationProvider {
+public class CustomProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         var name = authentication.getName();
@@ -22,10 +23,7 @@ public class NhanProvider implements AuthenticationProvider {
                     null,
                     nhan.getAuthorities());
         }
-        else{
-
-        }
-        return null;
+        throw new BadCredentialsException("Invalid user or password");
     }
 
     @Override

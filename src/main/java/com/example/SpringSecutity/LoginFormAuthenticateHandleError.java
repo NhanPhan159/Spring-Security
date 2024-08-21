@@ -17,16 +17,9 @@ public class LoginFormAuthenticateHandleError implements AuthenticationFailureHa
     private ObjectMapper objectMapper = new ObjectMapper();
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        Map<String, Object> data = new HashMap<>();
-        data.put(
-                "timestamp",
-                Calendar.getInstance().getTime());
-        data.put(
-                "exception",
-                exception.getMessage());
 
-        response.getOutputStream()
-                .println(objectMapper.writeValueAsString(data));
+        response.setStatus(HttpStatus.FORBIDDEN.value());
+        response.setContentType("text/plain;charset=utf8");
+        response.getWriter().write(exception.getMessage());
     }
 }
