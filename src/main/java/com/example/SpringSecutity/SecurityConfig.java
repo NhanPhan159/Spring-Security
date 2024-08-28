@@ -18,13 +18,15 @@ public class SecurityConfig {
                         authorizeHttp -> {
                             authorizeHttp.requestMatchers("/").permitAll();
                             authorizeHttp.requestMatchers("/css/*").permitAll();
-                            authorizeHttp.requestMatchers("/private").authenticated();
+                            authorizeHttp.requestMatchers("/error").permitAll();
+                            authorizeHttp.anyRequest().authenticated();
                         }
                 )
                 .formLogin(l-> {
                     l.defaultSuccessUrl("/private");
 //                  l.failureHandler(new LoginFormAuthenticateHandleError());
                 })
+                .logout(l -> l.logoutSuccessUrl("/"))
                 .authenticationProvider(new CustomProvider())
                 .addFilterAfter(new ExampleFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
